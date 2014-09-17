@@ -3,10 +3,8 @@
     <!-- Strings related to Settings -->
     <string name="pref_header_general">General</string>
 
-    <!-- Example settings for Data & Sync -->
-    <string name="pref_header_sms">SMS sharing</string>
 
-    <string name="pref_title_sync_frequency">Share frequency</string>
+    <string name="sync_frequency">Share frequency</string>
     <string-array name="pref_sync_frequency_titles">
         <item>5 minutes</item>
         <item>15 minutes</item>
@@ -28,10 +26,14 @@
 
     <!-- Example settings for Notifications -->
     <string name="pref_header_http">HTTP sharing</string>
-
     <string name="pref_title_use_http_sharing">Enable http sharing</string>
-
     <string name="post_url">POST URL</string>
-    <string name="pref_title_use_sms_sharing">Enable SMS sharing</string>
+    <string name="http_test">Test HTTP sharing</string>
+    <string name="http_test_text">Click to generate and send an POST to the URL above</string>
+
+    <string name="pref_header_sms">SMS sharing</string>
+    <string name="sms_sharing">Enable SMS sharing</string>
     <string name="sms_number">SMS number</string>
+    <string name="sms_test">Test SMS sharing</string>
+    <string name="sms_test_text">Click to generate and send an SMS to the number above</string>
 </resources>
