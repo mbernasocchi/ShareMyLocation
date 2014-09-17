@@ -7,11 +7,11 @@
         android:title="@string/pref_header_general" />
 
     <header
-        android:fragment="ch.opengis.sharemylocation.SettingsActivity$NotificationPreferenceFragment"
+        android:fragment="ch.opengis.sharemylocation.SettingsActivity$HTTPPreferenceFragment"
         android:title="@string/pref_header_http" />
 
     <header
-        android:fragment="ch.opengis.sharemylocation.SettingsActivity$DataSyncPreferenceFragment"
+        android:fragment="ch.opengis.sharemylocation.SettingsActivity$SMSPreferenceFragment"
         android:title="@string/pref_header_sms" />
 
 </preference-headers>
