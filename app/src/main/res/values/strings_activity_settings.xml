@@ -26,7 +26,7 @@
 
     <!-- Example settings for Notifications -->
     <string name="pref_header_http">HTTP sharing</string>
-    <string name="pref_title_use_http_sharing">Enable http sharing</string>
+    <string name="http_sharing">Enable http sharing</string>
     <string name="post_url">POST URL</string>
     <string name="http_test">Test HTTP sharing</string>
     <string name="http_test_text">Click to generate and send an POST to the URL above</string>

@@ -16,6 +16,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.text.TextUtils;
+import android.util.Log;
 
 
 import java.util.List;
@@ -40,6 +41,17 @@ public class SettingsActivity extends PreferenceActivity {
      */
     private static final boolean ALWAYS_SIMPLE_PREFS = false;
 
+    @Override
+    protected boolean isValidFragment (String fragmentName)
+    {
+        if(GeneralPreferenceFragment.class.getName().equals(fragmentName))
+            return true;
+        if(SMSPreferenceFragment.class.getName().equals(fragmentName))
+            return true;
+        if(HTTPPreferenceFragment.class.getName().equals(fragmentName))
+            return true;
+        return false;
+    }
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
@@ -79,9 +91,9 @@ public class SettingsActivity extends PreferenceActivity {
         // Bind the summaries of EditText/List/Dialog/Ringtone preferences to
         // their values. When their values change, their summaries are updated
         // to reflect the new value, per the Android Design guidelines.
-        bindPreferenceSummaryToValue(findPreference("post_url"));
-        bindPreferenceSummaryToValue(findPreference("sms_number"));
-        bindPreferenceSummaryToValue(findPreference("sync_frequency"));
+        bindPreferenceSummaryToValue(findPreference(getString(R.string.sync_frequency)));
+        bindPreferenceSummaryToValue(findPreference(getString(R.string.post_url)));
+        bindPreferenceSummaryToValue(findPreference(getString(R.string.sms_number)));
     }
 
     /** {@inheritDoc} */
@@ -187,7 +199,7 @@ public class SettingsActivity extends PreferenceActivity {
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
-            bindPreferenceSummaryToValue(findPreference("sync_frequency"));
+            bindPreferenceSummaryToValue(findPreference(getString(R.string.sync_frequency)));
         }
     }
 
@@ -201,12 +213,20 @@ public class SettingsActivity extends PreferenceActivity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_http);
+            Preference button = findPreference(getString(R.string.http_test));
+            button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference arg0) {
+                    Log.d("AAAAAA", "click http");
+                    return true;
+                }
+            });
 
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
             // to their values. When their values change, their summaries are
             // updated to reflect the new value, per the Android Design
             // guidelines.
-            bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
+            bindPreferenceSummaryToValue(findPreference(getString(R.string.post_url)));
         }
     }
 
@@ -220,6 +240,15 @@ public class SettingsActivity extends PreferenceActivity {
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_sms);
+            Preference button = findPreference(getString(R.string.sms_test));
+            button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference arg0) {
+                    Log.d("AAAAAA", "click sms");
+                    return true;
+                }
+            });
+            bindPreferenceSummaryToValue(findPreference(getString(R.string.sms_number)));
 
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
             // to their values. When their values change, their summaries are
