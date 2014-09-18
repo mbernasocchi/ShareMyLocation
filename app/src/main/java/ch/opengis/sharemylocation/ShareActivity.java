@@ -5,9 +5,28 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Switch;
 
 
 public class ShareActivity extends Activity {
+
+    static final String TAG = "ShareMyLocation";
+
+    // called by onclick in the xml
+    public void toggle_sharing(View view) {
+        boolean on = ((Switch) view).isChecked();
+
+        Intent i = new Intent(this, GPSService.class);
+        if (on) {
+            // use this to start and trigger a service
+            // potentially add data to the intent
+            //i.putExtra("KEY1", "Value to be used by the service");
+            startService(i);
+        } else {
+            stopService(i);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

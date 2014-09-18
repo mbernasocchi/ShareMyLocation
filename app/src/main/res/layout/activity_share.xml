@@ -15,11 +15,12 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         />
-    <ToggleButton
+    <Switch
         android:id="@+id/sharing_toggle"
         android:layout_toRightOf="@id/sharing_label"
         android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:onClick="toggle_sharing"/>
 
 </RelativeLayout>

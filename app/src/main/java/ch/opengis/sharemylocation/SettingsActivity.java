@@ -11,7 +11,6 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 
 import java.util.List;
@@ -212,7 +211,8 @@ public class SettingsActivity extends PreferenceActivity {
             button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference arg0) {
-                    Log.d("AAAAAA", "click http");
+                    String url = findPreference(getString(R.string.post_url)).toString();
+                    Utils.share_via_http(url, Utils.generate_test_message());
                     return true;
                 }
             });
@@ -231,6 +231,7 @@ public class SettingsActivity extends PreferenceActivity {
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public static class SMSPreferenceFragment extends PreferenceFragment {
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -239,7 +240,8 @@ public class SettingsActivity extends PreferenceActivity {
             button.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference arg0) {
-                    Log.d("AAAAAA", "click sms");
+                    String number = findPreference(getString(R.string.sms_number)).toString();
+                    Utils.share_via_sms(number, Utils.generate_test_message());
                     return true;
                 }
             });
