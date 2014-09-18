@@ -1,5 +1,6 @@
 package ch.opengis.sharemylocation;
 
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -12,22 +13,31 @@ import android.util.Log;
 public class GPSService extends Service {
     SharedPreferences prefs;
     LocationManager locationManager;
+    PendingIntent pendingIntent;
 
     @Override
     public void onCreate(){
+        super.onCreate();
         prefs = PreferenceManager.getDefaultSharedPreferences(this);
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        Intent activeIntent = new Intent(this, ShareLocationReceiver.class);
+        pendingIntent = PendingIntent.getBroadcast(this, 0, activeIntent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         String preferredInterval = prefs.getString(getString(R.string.sync_frequency), "15");
         //convert minutes to milliseconds
-        float interval = Float.parseFloat(preferredInterval) * 1000;
+        long interval = Long.parseLong(preferredInterval) * 1000;
         Log.d(ShareActivity.TAG, "Using interval: " + interval + "ms");
-        //locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, interval, 0);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, interval, 0, pendingIntent);
 
         return Service.START_STICKY;
+    }
+
+    @Override
+    public void onDestroy(){
+        locationManager.removeUpdates(pendingIntent);
     }
 
     @Override

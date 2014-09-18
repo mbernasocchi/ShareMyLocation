@@ -20,8 +20,8 @@ public class Utils {
         Log.d(ShareActivity.TAG, number);
         Log.d(ShareActivity.TAG, msg);
 
-        SmsManager sm = SmsManager.getDefault();
-        sm.sendTextMessage(number, null, msg, null, null);
+        //SmsManager sm = SmsManager.getDefault();
+        //sm.sendTextMessage(number, null, msg, null, null);
     }
 
     public static void share_via_http(String uri, String msg) {
