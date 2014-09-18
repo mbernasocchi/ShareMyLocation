@@ -5,6 +5,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.util.Log;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
@@ -45,13 +46,23 @@ public class Utils {
         if (location == null){
             return "";
         }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        String fixDateandTime = sdf.format(location.getTime());
+
         return String.format(
-                "{'time':%d;'lat':%f;'lon':%f;'alt':%f;'spd':%f;'acc':%f}",
-                location.getTime(),
+                "{'time':%s;'lat':%f;'lon':%f;'alt':%f;'spd':%f;'acc':%f;'url':%s}",
+                fixDateandTime,
                 location.getLatitude(),
                 location.getLongitude(),
                 location.getAltitude(),
                 location.getSpeed(),
-                location.getAccuracy());
+                location.getAccuracy(),
+                String.format("http://maps.google.com/?q=%f,%f",
+                        location.getLatitude(),
+                        location.getLongitude())
+
+
+
+        );
     }
 }

@@ -1,19 +1,25 @@
 package ch.opengis.sharemylocation;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Switch;
-import android.widget.ToggleButton;
 
 
 public class ShareActivity extends Activity {
 
     static final String TAG = "ShareMyLocation";
+    LocationManager locationManager;
+
 
     // called by onclick in the xml
     public void toggle_sharing(View view) {
@@ -21,19 +27,46 @@ public class ShareActivity extends Activity {
 
         Intent i = new Intent(this, GPSService.class);
         if (on) {
-            // use this to start and trigger a service
-            // potentially add data to the intent
-            //i.putExtra("KEY1", "Value to be used by the service");
-            startService(i);
+            // Get Location Manager and check for GPS location services
+            if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+                // disable the switch, so if the use cancels the dialog we have consistent state
+                ((Switch) view).setChecked(false);
+
+                // Build the alert dialog
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle(R.string.location_services_inactive);
+                builder.setMessage(R.string.enable_gps);
+                builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // Show location settings when the user acknowledges the alert dialog
+                        Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivity(intent);
+                    }
+                });
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // Show location settings when the user acknowledges the alert dialog
+                            }});
+
+                Dialog alertDialog = builder.create();
+                alertDialog.setCanceledOnTouchOutside(false);
+                alertDialog.show();
+            }
+            else{
+                startService(i);
+            }
         } else {
             stopService(i);
         }
     }
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share);
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         Switch sharing_toggle = (Switch) findViewById(R.id.sharing_toggle);
         sharing_toggle.setChecked(GPSService.IS_RUNNING);
         Log.d(TAG, "GPS service running: " + GPSService.IS_RUNNING);

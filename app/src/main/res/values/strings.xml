@@ -3,4 +3,6 @@
     <string name="app_name">Share My Location</string>
     <string name="sharing_label">Location sharing</string>
     <string name="action_settings">Settings</string>
+    <string name="location_services_inactive">Location Services Not Active</string>
+    <string name="enable_gps">Please enable GPS</string>
 </resources>
