@@ -1,8 +1,10 @@
 package ch.opengis.sharemylocation;
 
 import android.content.Context;
+import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.util.Log;
 
@@ -30,11 +32,35 @@ public class Utils {
         Log.d(ShareActivity.TAG, msg);
     }
 
-    public static String generate_test_message() {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
-        String currentDateandTime = sdf.format(new Date());
-        String lat = "46.78987181969633";
-        String lon = "9.252955913543701";
-        return currentDateandTime + "," + lat + "," + lon;
+    public static String generate_test_message(Context context) {
+        LocationManager lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        List<String> providers = lm.getProviders(true);
+        Location loc = null;
+
+        /* Loop over the array backwards, and if you get an accurate location, then break out the loop*/
+        for (int i=providers.size()-1; i>=0; i--) {
+            loc = lm.getLastKnownLocation(providers.get(i));
+            if (loc != null) break;
+        }
+        
+        return generate_message_body(loc);
+    }
+
+    public static String generate_message(Intent intent){
+        Bundle b = intent.getExtras();
+        Location loc = (Location)b.get(LocationManager.KEY_LOCATION_CHANGED);
+        return generate_message_body(loc);
+    }
+
+    private static String generate_message_body(Location loc) {
+        String msg = String.format(
+                "{'time':%d;'lat':%f;'lon':%f;'alt':%f;'spd':%f;'acc':%f}",
+                loc.getTime(),
+                loc.getLatitude(),
+                loc.getLongitude(),
+                loc.getAltitude(),
+                loc.getSpeed(),
+                loc.getAccuracy());
+        return msg;
     }
 }

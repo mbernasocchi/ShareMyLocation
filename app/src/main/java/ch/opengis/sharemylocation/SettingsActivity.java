@@ -210,7 +210,7 @@ public class SettingsActivity extends PreferenceActivity {
                 @Override
                 public boolean onPreferenceClick(Preference arg0) {
                     String url = findPreference(getString(R.string.post_url)).toString();
-                    Utils.share_via_http(url, Utils.generate_test_message());
+                    Utils.share_via_http(url, Utils.generate_test_message(getActivity()));
                     return true;
                 }
             });
@@ -239,7 +239,7 @@ public class SettingsActivity extends PreferenceActivity {
                 @Override
                 public boolean onPreferenceClick(Preference arg0) {
                     String number = findPreference(getString(R.string.sms_number)).toString();
-                    Utils.share_via_sms(number, Utils.generate_test_message());
+                    Utils.share_via_sms(number, Utils.generate_test_message(getActivity()));
                     return true;
                 }
             });
