@@ -6,6 +6,7 @@
 
     <string name="sync_frequency">Share frequency</string>
     <string-array name="pref_sync_frequency_titles">
+        <item>15 seconds (for debugging)</item>
         <item>5 minutes</item>
         <item>15 minutes</item>
         <item>30 minutes</item>
@@ -14,6 +15,7 @@
         <item>6 hours</item>
     </string-array>
     <string-array name="pref_sync_frequency_values">
+        <item>0.25</item>
         <item>5</item>
         <item>15</item>
         <item>30</item>

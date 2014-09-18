@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="app_name">Share My Location</string>
-    <string name="sharing_label">Location tracking and sharing</string>
+    <string name="sharing_label">Location sharing</string>
     <string name="action_settings">Settings</string>
-
 </resources>
