@@ -3,7 +3,7 @@
     <CheckBoxPreference
         android:key="@string/sms_sharing"
         android:title="@string/sms_sharing"
-        android:defaultValue="true" />
+        android:defaultValue="false" />
 
     <!-- NOTE: This preferences will be enabled only when the checkbox above is checked. -->
     <EditTextPreference

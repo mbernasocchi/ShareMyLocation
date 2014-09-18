@@ -30,7 +30,6 @@ public class GPSService extends Service {
         IS_RUNNING = true;
         String preferredInterval = prefs.getString(getString(R.string.sync_frequency), "15");
         //convert minutes to milliseconds
-        Log.w(ShareActivity.TAG, preferredInterval);
         long interval = (long) (Float.parseFloat(preferredInterval) * 60 * 1000);
         Log.d(ShareActivity.TAG, "Using interval: " + interval + "ms");
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, interval, 0, pendingIntent);

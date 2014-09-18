@@ -60,9 +60,6 @@ public class Utils {
                 String.format("http://maps.google.com/?q=%f,%f",
                         location.getLatitude(),
                         location.getLongitude())
-
-
-
         );
     }
 }
