@@ -3,10 +3,12 @@ package ch.opengis.sharemylocation;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Switch;
+import android.widget.ToggleButton;
 
 
 public class ShareActivity extends Activity {
@@ -32,6 +34,9 @@ public class ShareActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share);
+        Switch sharing_toggle = (Switch) findViewById(R.id.sharing_toggle);
+        sharing_toggle.setChecked(GPSService.IS_RUNNING);
+        Log.d(TAG, "GPS service running: " + GPSService.IS_RUNNING);
     }
 
 

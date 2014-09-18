@@ -1,15 +1,10 @@
 package ch.opengis.sharemylocation;
 
 import android.content.Context;
-import android.content.Intent;
 import android.location.Location;
 import android.location.LocationManager;
-import android.os.Bundle;
-import android.telephony.SmsManager;
 import android.util.Log;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -42,25 +37,21 @@ public class Utils {
             loc = lm.getLastKnownLocation(providers.get(i));
             if (loc != null) break;
         }
-        
-        return generate_message_body(loc);
+
+        return generate_message(loc);
     }
 
-    public static String generate_message(Intent intent){
-        Bundle b = intent.getExtras();
-        Location loc = (Location)b.get(LocationManager.KEY_LOCATION_CHANGED);
-        return generate_message_body(loc);
-    }
-
-    private static String generate_message_body(Location loc) {
-        String msg = String.format(
+    public static String generate_message(Location location) {
+        if (location == null){
+            return "";
+        }
+        return String.format(
                 "{'time':%d;'lat':%f;'lon':%f;'alt':%f;'spd':%f;'acc':%f}",
-                loc.getTime(),
-                loc.getLatitude(),
-                loc.getLongitude(),
-                loc.getAltitude(),
-                loc.getSpeed(),
-                loc.getAccuracy());
-        return msg;
+                location.getTime(),
+                location.getLatitude(),
+                location.getLongitude(),
+                location.getAltitude(),
+                location.getSpeed(),
+                location.getAccuracy());
     }
 }

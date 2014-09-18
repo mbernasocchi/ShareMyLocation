@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 public class GPSService extends Service {
+    public static boolean IS_RUNNING = false;
     SharedPreferences prefs;
     LocationManager locationManager;
     PendingIntent pendingIntent;
@@ -26,6 +27,7 @@ public class GPSService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        IS_RUNNING = true;
         String preferredInterval = prefs.getString(getString(R.string.sync_frequency), "15");
         //convert minutes to milliseconds
         long interval = Long.parseLong(preferredInterval) * 1000;
@@ -37,6 +39,7 @@ public class GPSService extends Service {
 
     @Override
     public void onDestroy(){
+        IS_RUNNING = false;
         locationManager.removeUpdates(pendingIntent);
     }
 
