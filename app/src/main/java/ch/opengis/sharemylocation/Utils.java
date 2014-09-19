@@ -56,8 +56,8 @@ public class Utils {
             reader = new BufferedReader(new InputStreamReader(in));
             String line;
             while ((line = reader.readLine()) != null) {
-                Log.d(ShareActivity.TAG, line);
                 if (line.equals(SERVER_OK_TEXT)){
+                    Log.d(ShareActivity.TAG, "SERVER_OK_TEXT found");
                     return true;
                 }
 

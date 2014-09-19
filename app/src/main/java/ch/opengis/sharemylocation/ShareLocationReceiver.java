@@ -8,6 +8,7 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 public class ShareLocationReceiver extends BroadcastReceiver {
     SharedPreferences prefs;
@@ -41,6 +42,9 @@ public class ShareLocationReceiver extends BroadcastReceiver {
                     Utils.share_via_sms(sms_number, message);
                 }
             }
+        }
+        else {
+            Log.d(ShareActivity.TAG, "http sharing was successful. Skipping SMS sharing");
         }
     }
 
