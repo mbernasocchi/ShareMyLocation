@@ -4,6 +4,7 @@
     <string name="pref_header_general">General</string>
 
 
+    <string name="sync_hash_salt">Server hash secret</string>
     <string name="sync_frequency">Share frequency</string>
     <string-array name="pref_sync_frequency_titles">
         <item>15 seconds (for debugging)</item>

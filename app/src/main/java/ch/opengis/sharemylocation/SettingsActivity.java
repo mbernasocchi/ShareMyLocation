@@ -86,6 +86,7 @@ public class SettingsActivity extends PreferenceActivity {
         // their values. When their values change, their summaries are updated
         // to reflect the new value, per the Android Design guidelines.
         bindPreferenceSummaryToValue(findPreference(getString(R.string.sync_frequency)));
+        bindPreferenceSummaryToValue(findPreference(getString(R.string.sync_hash_salt)));
         bindPreferenceSummaryToValue(findPreference(getString(R.string.post_url)));
         bindPreferenceSummaryToValue(findPreference(getString(R.string.sms_number)));
     }
@@ -194,6 +195,7 @@ public class SettingsActivity extends PreferenceActivity {
             // updated to reflect the new value, per the Android Design
             // guidelines.
             bindPreferenceSummaryToValue(findPreference(getString(R.string.sync_frequency)));
+            bindPreferenceSummaryToValue(findPreference(getString(R.string.sync_hash_salt)));
         }
     }
 

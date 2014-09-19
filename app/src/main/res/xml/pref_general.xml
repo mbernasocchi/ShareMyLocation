@@ -10,5 +10,9 @@
         android:defaultValue="15"
         android:negativeButtonText="@null"
         android:positiveButtonText="@null" />
+    <EditTextPreference
+        android:key="@string/sync_hash_salt"
+        android:title="@string/sync_hash_salt"
+        android:defaultValue="1234" />
 
 </PreferenceScreen>
