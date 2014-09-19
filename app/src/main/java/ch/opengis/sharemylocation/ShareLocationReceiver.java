@@ -32,13 +32,14 @@ public class ShareLocationReceiver extends BroadcastReceiver {
             }
         }
 
-
-        boolean sms_sharing = prefs.getBoolean(context.getString(R.string.sms_sharing), true);
-        String sms_number = prefs.getString(context.getString(R.string.sms_number), "");
-        if (sms_sharing && sms_number != "") {
-            message = Utils.generate_message(location, hash_salt, Utils.OutputFormat.JSON);
-            if (message != "") {
-                Utils.share_via_sms(sms_number, message);
+        if (!success){
+            boolean sms_sharing = prefs.getBoolean(context.getString(R.string.sms_sharing), true);
+            String sms_number = prefs.getString(context.getString(R.string.sms_number), "");
+            if (sms_sharing && sms_number != "") {
+                message = Utils.generate_message(location, hash_salt, Utils.OutputFormat.JSON);
+                if (message != "") {
+                    Utils.share_via_sms(sms_number, message);
+                }
             }
         }
     }
