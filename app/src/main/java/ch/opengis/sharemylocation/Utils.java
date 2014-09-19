@@ -118,7 +118,7 @@ public class Utils {
             format = "time=%s&lat=%s&lon=%s&alt=%s&spd=%s&acc=%s&hash=%s";
         }
         else{
-            format = "{'time':%s;'lat':%s;'lon':%s;'alt':%s;'spd':%s;'acc':%s;'hash':%s}";
+            format = "{\"time\":\"%s\",\"lat\":%s,\"lon\":%s,\"alt\":%s,\"spd\":%s,\"acc\":%s,\"hash\":\"%s\"}";
         }
         return String.format(
                 format,
