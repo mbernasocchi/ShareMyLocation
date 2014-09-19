@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.util.Log;
@@ -31,6 +32,9 @@ public class ShareActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share);
+
+        StrictMode.ThreadPolicy policy = StrictMode.ThreadPolicy.LAX;
+        StrictMode.setThreadPolicy(policy);
 
         GPSintent = new Intent(this, GPSService.class);
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -98,6 +102,7 @@ public class ShareActivity extends Activity {
     private void stop_sharing() {
         stopService(GPSintent);
     }
+
     private void start_sharing() {
         // Get Location Manager and check for GPS location services
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {

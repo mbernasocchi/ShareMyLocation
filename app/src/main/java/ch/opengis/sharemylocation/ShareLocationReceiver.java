@@ -18,20 +18,27 @@ public class ShareLocationReceiver extends BroadcastReceiver {
 
         Bundle b = intent.getExtras();
         Location location = (Location)b.get(LocationManager.KEY_LOCATION_CHANGED);
-        String message = Utils.generate_message(location);
-        if (message != "") {
+        String hash_salt = prefs.getString(context.getString(R.string.sync_hash_salt), "");
 
-            boolean sms_sharing = prefs.getBoolean(context.getString(R.string.sms_sharing), true);
-            String sms_number = prefs.getString(context.getString(R.string.sms_number), "");
-            if (sms_sharing && sms_number != "") {
-                Utils.share_via_sms(sms_number, message);
+        String message;
+        boolean success = false;
+
+        boolean http_sharing = prefs.getBoolean(context.getString(R.string.http_sharing), true);
+        String post_url = prefs.getString(context.getString(R.string.post_url), "");
+        if (http_sharing && post_url != "") {
+            message = Utils.generate_message(location, hash_salt, Utils.OutputFormat.URL_PARAMS);
+            if (message != "") {
+                success = Utils.share_via_http(post_url, message);
             }
+        }
 
-            boolean http_sharing = prefs.getBoolean(context.getString(R.string.http_sharing), true);
-            String post_url = prefs.getString(context.getString(R.string.post_url), "");
 
-            if (http_sharing && post_url != "") {
-                Utils.share_via_http(post_url, message);
+        boolean sms_sharing = prefs.getBoolean(context.getString(R.string.sms_sharing), true);
+        String sms_number = prefs.getString(context.getString(R.string.sms_number), "");
+        if (sms_sharing && sms_number != "") {
+            message = Utils.generate_message(location, hash_salt, Utils.OutputFormat.JSON);
+            if (message != "") {
+                Utils.share_via_sms(sms_number, message);
             }
         }
     }
