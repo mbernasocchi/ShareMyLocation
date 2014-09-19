@@ -3,6 +3,7 @@ package ch.opengis.sharemylocation;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
+import android.telephony.SmsManager;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
@@ -18,14 +19,14 @@ public class Utils {
         Log.d(ShareActivity.TAG, number);
         Log.d(ShareActivity.TAG, msg);
 
-        //SmsManager sm = SmsManager.getDefault();
-        //sm.sendTextMessage(number, null, msg, null, null);
+        SmsManager sm = SmsManager.getDefault();
+        sm.sendTextMessage(number, null, msg, null, null);
     }
 
-    public static void share_via_http(String uri, String msg) {
+    public static void share_via_http(String uri, String message) {
         Log.d(ShareActivity.TAG, "Sending http:");
         Log.d(ShareActivity.TAG, uri);
-        Log.d(ShareActivity.TAG, msg);
+        Log.d(ShareActivity.TAG, message);
     }
 
     public static String generate_test_message(Context context) {
