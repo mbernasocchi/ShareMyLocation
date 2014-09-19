@@ -6,6 +6,7 @@ import android.location.LocationManager;
 import android.telephony.SmsManager;
 import android.util.Log;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -50,14 +51,17 @@ public class Utils {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
         String fixDateandTime = sdf.format(location.getTime());
 
+        String altitude = new DecimalFormat("#.#").format(location.getAltitude());
+        String speed = new DecimalFormat("#.#").format(location.getSpeed());
+        String accuracy = new DecimalFormat("#.#").format(location.getAccuracy());
         return String.format(
-                "{'time':%s;'lat':%f;'lon':%f;'alt':%f;'spd':%f;'acc':%f;'url':%s}",
+                "{'time':%s;'lat':%f;'lon':%f;'alt':%s;'spd':%s;'acc':%s;'url':%s}",
                 fixDateandTime,
                 location.getLatitude(),
                 location.getLongitude(),
-                location.getAltitude(),
-                location.getSpeed(),
-                location.getAccuracy(),
+                altitude,
+                speed,
+                accuracy,
                 String.format("http://maps.google.com/?q=%f,%f",
                         location.getLatitude(),
                         location.getLongitude())
