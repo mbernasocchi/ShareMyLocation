@@ -14,16 +14,23 @@ $hash = $_GET['hash'];
 $data = $fix_time . $latitude . $longitude . $altitude . $speed . $accuracy . $HASH_SALT;
 $md5 = md5($data);
 
+$string = file_get_contents("location.json");
+$json=json_decode($string,true);
+$last_json_time = $json['time'];
+
 if ($md5 != $_GET['hash']){
     die("invalid hash");
+}
+else if($last_json_time > $fix_time){
+    die("old data");
 }
 else{
     $myfile = fopen("location.json", "w") or die("Unable to open file!");
     $format = '{"time":"%s","lat":%s,"lon":%s,"alt":%s,"spd":%s,"acc":%s,"hash":"%s"}';
     $json = sprintf($format, $fix_time, $latitude, $longitude, $altitude, $speed, $accuracy, $hash);
     fwrite($myfile, $json);
-    fclose($myfile);
     print "OK";
 }
+fclose($myfile);
 
 ?>
