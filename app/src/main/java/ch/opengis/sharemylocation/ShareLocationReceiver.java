@@ -9,6 +9,7 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 public class ShareLocationReceiver extends BroadcastReceiver {
     SharedPreferences prefs;
@@ -44,6 +45,7 @@ public class ShareLocationReceiver extends BroadcastReceiver {
             }
         }
         else {
+            Toast.makeText(context, R.string.success, Toast.LENGTH_SHORT).show();
             Log.d(ShareActivity.TAG, "http sharing was successful. Skipping SMS sharing");
         }
     }

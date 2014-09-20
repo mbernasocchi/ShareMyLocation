@@ -101,8 +101,8 @@ public class Utils {
             Log.w(ShareActivity.TAG, "Server hash secret is empty");
             return "";
         }
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
-        String fixTime = sdf.format(location.getTime());
+        //SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+        String fixTime = String.format("%s", location.getTime());
 
         String altitude = new DecimalFormat("#.#").format(location.getAltitude());
         String speed = new DecimalFormat("#.#").format(location.getSpeed());

@@ -12,7 +12,7 @@
         android:dependency="@string/http_sharing"
         android:key="@string/post_url"
         android:title="@string/post_url"
-        android:defaultValue="http://localhost" />
+        android:defaultValue="http://localhost/share_my_location.php" />
 
     <Preference
         android:dependency="@string/http_sharing"

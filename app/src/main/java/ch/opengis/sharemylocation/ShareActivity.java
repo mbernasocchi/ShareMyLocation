@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Switch;
+import android.widget.Toast;
 
 
 public class ShareActivity extends Activity {
@@ -26,7 +27,6 @@ public class ShareActivity extends Activity {
     SharedPreferences prefs;
     SharedPreferences.OnSharedPreferenceChangeListener prefListener;
     Switch sharing_toggle;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +46,7 @@ public class ShareActivity extends Activity {
         prefListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
                     public void onSharedPreferenceChanged(SharedPreferences prefs, String key) {
                         if (key.equals(getString(R.string.sync_frequency))) {
-                            Log.d(TAG, "Restarting sharing service due to share frequency change");
+                            Log.d(TAG, getString(R.string.frequency_changed));
                             reset_sharing();
                         }
                     }
@@ -96,6 +96,7 @@ public class ShareActivity extends Activity {
         if (GPSService.IS_RUNNING){
             stopService(GPSintent);
             startService(GPSintent);
+            Toast.makeText(this, R.string.frequency_changed, Toast.LENGTH_SHORT).show();
         }
     }
 

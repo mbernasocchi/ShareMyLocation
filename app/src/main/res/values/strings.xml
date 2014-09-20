@@ -5,4 +5,6 @@
     <string name="action_settings">Settings</string>
     <string name="location_services_inactive">Location Services Not Active</string>
     <string name="enable_gps">Please enable GPS</string>
+    <string name="success">Successfully shared your location</string>
+    <string name="frequency_changed">Restarting sharing service due to share frequency change</string>
 </resources>
