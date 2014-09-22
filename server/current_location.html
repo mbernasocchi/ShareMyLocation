@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script
+            src="//maps.googleapis.com/maps/api/js?key=AIzaSyDY0kkJiTPVd2U7aTOAwhc9ySH6oHxOIYM&sensor=false">
+    </script>
+    <script src="//code.jquery.com/jquery-2.1.1.min.js"></script>
+
+    <script>
+function initialize()
+{
+    var mapProp = {
+      center:new google.maps.LatLng(51.508742,-0.120850),
+      zoom:5,
+      mapTypeId:google.maps.MapTypeId.TERRAIN
+      };
+    var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+
+    $.getJSON("location.json", function(last_location) {
+        var current_location_marker = makeMarker(map, "My last known position", last_location, 'img/hiking.png');
+    });
+}
+
+function makeMarker(map, title, location, icon_link) {
+    var marker_latlng = new google.maps.LatLng(location.lat, location.lon);
+    var fixtime = new Date();
+    fixtime.setTime(location.time);
+    var title = title + ' (' + fixtime + ')';
+    var marker = new google.maps.Marker({
+        map: map,
+        position: marker_latlng,
+        title: title,
+        icon: icon_link
+    });
+    makeInfoWindow(map, marker, title, fixtime, location)
+    return marker;
+}
+function makeInfoWindow(map, marker, title, fixtime, location){
+    var contentString = '<div class="map-infowindow">';
+    contentString += '<h3>' + title + '</h3>';
+    contentString += 'UTC Time: ' + fixtime.toISOString() +'<br/>';
+    contentString += 'Time at location: ' + "TODO" +'<br/>';
+    contentString += 'Latitude: ' + location.lat +'<br/>';
+    contentString += 'Longitude: ' + location.lon +'<br/>';
+    contentString += 'Altitude: ' + location.alt +'m<br/>';
+    contentString += 'Speed: ' + location.spd +'Km/h<br/>';
+    contentString += 'Accurancy: ' + location.acc + 'm</div>';
+
+    var infowindow = new google.maps.InfoWindow({
+      content: contentString
+    });
+    google.maps.event.addListener(marker, 'click', function() {
+	    infowindow.open(map,marker);
+    });
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+</script>
+</head>
+
+<body>
+<div id="googleMap" style="width:500px;height:380px;"></div>
+
+</body>
+</html>
