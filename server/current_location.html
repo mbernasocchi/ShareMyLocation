@@ -44,13 +44,13 @@ function initialize()
             var fixtime = new Date();
             fixtime.setTime((timestamp + timezone_data.rawOffset + timezone_data.dstOffset) * 1000);
             last_location['time_at_location'] = fixtime;
-            var current_location_marker = makeMarker(map, "My last known position", last_location, 'img/hiking.png');
+            var current_location_marker = makeLocationMarker(map, "My last known position", last_location, 'img/hiking.png');
         });
 
     });
 }
 
-function makeMarker(map, title, location, icon_link) {
+function makeLocationMarker(map, title, location, icon_link) {
     var marker_latlng = new google.maps.LatLng(location.lat, location.lon);
     var fixtime = new Date();
     fixtime.setTime(location.time);
@@ -62,14 +62,14 @@ function makeMarker(map, title, location, icon_link) {
         title: title,
         icon: icon_link
     });
-    makeInfoWindow(map, marker, title, location)
+    makeLocationInfoWindow(map, marker, title, location)
     return marker;
 }
-function makeInfoWindow(map, marker, title, location){
+function makeLocationInfoWindow(map, marker, title, location){
     var contentString = '<div class="map-infowindow">';
     contentString += '<h3>' + title + '</h3>';
-    contentString += 'UTC Time: ' + location.fixtime.toISOString() +'<br/>';
     contentString += 'Time at location: ' + format(location.time_at_location) + '<br/>';
+    contentString += 'UTC Time: ' + location.fixtime.toISOString() +'<br/>';
     contentString += 'Latitude: ' + location.lat +'<br/>';
     contentString += 'Longitude: ' + location.lon +'<br/>';
     contentString += 'Altitude: ' + location.alt +'m<br/>';
