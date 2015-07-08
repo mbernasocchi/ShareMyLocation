@@ -10,6 +10,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 public class ShareLocationReceiver extends BroadcastReceiver {
     SharedPreferences prefs;
@@ -21,6 +23,13 @@ public class ShareLocationReceiver extends BroadcastReceiver {
         Bundle b = intent.getExtras();
         Location location = (Location)b.get(LocationManager.KEY_LOCATION_CHANGED);
         String hash_salt = prefs.getString(context.getString(R.string.sync_hash_salt), "");
+//        String user_name = prefs.getString(context.getString(R.string.user_name), "");
+	String user_name = "";
+	try {
+        	user_name = URLEncoder.encode(prefs.getString(context.getString(R.string.user_name), ""), "UTF-8");
+	} catch (UnsupportedEncodingException e) {
+ 		System.err.println(e);
+	}
 
         String message;
         boolean success = false;
@@ -28,7 +37,7 @@ public class ShareLocationReceiver extends BroadcastReceiver {
         boolean http_sharing = prefs.getBoolean(context.getString(R.string.http_sharing), true);
         String post_url = prefs.getString(context.getString(R.string.post_url), "");
         if (http_sharing && post_url != "") {
-            message = Utils.generate_message(location, hash_salt, Utils.OutputFormat.URL_PARAMS);
+            message = Utils.generate_message(location, user_name, hash_salt, Utils.OutputFormat.URL_PARAMS);
             if (message != "") {
                 success = Utils.share_via_http(post_url, message);
             }
@@ -38,7 +47,7 @@ public class ShareLocationReceiver extends BroadcastReceiver {
             boolean sms_sharing = prefs.getBoolean(context.getString(R.string.sms_sharing), true);
             String sms_number = prefs.getString(context.getString(R.string.sms_number), "");
             if (sms_sharing && sms_number != "") {
-                message = Utils.generate_message(location, hash_salt, Utils.OutputFormat.JSON);
+                message = Utils.generate_message(location, user_name, hash_salt, Utils.OutputFormat.JSON);
                 if (message != "") {
                     Utils.share_via_sms(sms_number, message);
                 }

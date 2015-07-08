@@ -14,5 +14,9 @@
         android:key="@string/sync_hash_salt"
         android:title="@string/sync_hash_salt"
         android:defaultValue="1234" />
+    <EditTextPreference
+        android:key="@string/user_name"
+        android:title="@string/user_name"
+        android:defaultValue="Unknown" />
 
 </PreferenceScreen>

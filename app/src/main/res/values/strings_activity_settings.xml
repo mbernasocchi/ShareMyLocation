@@ -24,7 +24,7 @@
         <item>180</item>
         <item>360</item>
     </string-array>
-
+    <string name="user_name">YourName</string>
     <string name="pref_title_system_sync_settings">System sync settings</string>
 
     <!-- Example settings for Notifications -->
