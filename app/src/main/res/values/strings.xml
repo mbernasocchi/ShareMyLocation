@@ -7,4 +7,5 @@
     <string name="enable_gps">Please enable GPS</string>
     <string name="success">Successfully shared your location</string>
     <string name="frequency_changed">Restarting sharing service due to share frequency change</string>
+    <string name="trigger_now">Submit position after found location</string>
 </resources>
