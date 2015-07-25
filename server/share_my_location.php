@@ -1,72 +1,26 @@
 <?php
-//CONFIGURE SAME AS IN APP
-$HASH_SALT = '1234';
-//END CONFIGURE
+$user = new \ShareMyLocation\server\User();
+$locationService = new \ShareMyLocation\server\LocationService();
 
-$fix_time = $_GET['time'];
-$latitude = $_GET['lat'];
-$longitude = $_GET['lon'];
-$altitude = $_GET['alt'];
-$speed = $_GET['spd'];
-$accuracy = $_GET['acc'];
-$user = $_GET['user'];
-$hash = $_GET['hash'];
+$user->setUserName($_GET['user']);
 
-$data = $fix_time . $latitude . $longitude . $altitude . $speed . $accuracy . $user . $HASH_SALT;
-$md5 = md5($data);
+//the time is not saved in micro-seconds, so we have to divide by 1000 here
+$user->setTime(round($_GET['time'])/1000);
 
-$fix_time = round($fix_time/1000);
-
-$string = file_get_contents("location.json");
-$json = json_decode($string, true)["userList"];
+$user->setLatitude($_GET['lat']);
+$user->setLongitude($_GET['lon']);
+$user->setAltitude($_GET['alt']);
+$user->setSpeed($_GET['spd']);
+$user->setAccuracy($_GET['acc']);
+$user->setHash($_GET['hash']);
 
 
-if ($md5 != $_GET['hash']){
-    die("invalid hash");
-}
+$jsonUserList = file_get_contents("location.json", true);
 
-$i = 0;
-$found = false;
-foreach ($json as $v) {
-   if ( $json[$i]["user"] == $user ) {
-	$last_json_time = $json[$i]['time'];
-	if($last_json_time > $fix_time){
-	    die("old data");
-	}
-        $json[$i]["time"] = $fix_time;
-        $json[$i]["lat"] = $latitude;
-        $json[$i]["lon"] = $longitude;
-        $json[$i]["alt"] = $altitude;
-        $json[$i]["spd"] = $speed;
-        $json[$i]["acc"] = $accuracy;
-        $json[$i]["hash"] = $hash;
-	$found = true;
-   }
-   $i++;
-}
+$updatedList = $locationService->updateLocation($user, $jsonUserList);
 
-   if ( $found == false ) {
-	echo "new user";
-	array_push(
-		$json, array(
-			'time' => $fix_time,
-			'lat' => $latitude,
-			'lon' => $longitude,
-			'alt' => $altitude,
-			'spd' => $speed,
-			'acc' => $accuracy,
-			'hash' => $hash,
-			'user' => $user,
-		)
-	);
-   }
+$locationFile = fopen("location.json", "w+") or die("Unable to open file!");
 
-$string = json_encode(array("userList"=>$json), JSON_PRETTY_PRINT);
+fwrite($locationFile, $updatedList);
+fclose($locationFile);
 
-
-$myfile = fopen("location.json", "w+") or die("Unable to open file!");
-fwrite($myfile, $string);
-fclose($myfile);
-    print "OK";
-
-?>
