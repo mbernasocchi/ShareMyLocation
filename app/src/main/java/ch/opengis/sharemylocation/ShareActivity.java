@@ -91,19 +91,20 @@ public class ShareActivity extends Activity {
     public void toggle_sharing(View view) {
         if (sharing_toggle.isChecked()) {
             start_sharing();
-            share_now_button.setEnabled(true);
         } else {
             stop_sharing();
-            share_now_button.setEnabled(false);
         }
     }
 
     // called by onclick in the xml
     public void sharing_now(View view) {
+        Log.d(TAG, "Share Now");
+        Toast.makeText(this, R.string.trigger_now, Toast.LENGTH_SHORT).show();
         if (sharing_toggle.isChecked()) {
-            stopService(GPSintent);
-            startService(GPSintent);
-            Toast.makeText(this, R.string.trigger_now, Toast.LENGTH_SHORT).show();
+            stop_sharing();
+            start_sharing();
+        } else {
+            Toast.makeText(this, R.string.location_services_inactive, Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -117,12 +118,14 @@ public class ShareActivity extends Activity {
 
     private void stop_sharing() {
         stopService(GPSintent);
+        share_now_button.setEnabled(false);
     }
 
     private void start_sharing() {
         // Get Location Manager and check for GPS location services
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             startService(GPSintent);
+            share_now_button.setEnabled(true);
         }
         else {
             // disable the switch, so if the use cancels the dialog we have consistent state

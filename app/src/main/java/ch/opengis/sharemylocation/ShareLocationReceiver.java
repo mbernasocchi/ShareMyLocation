@@ -18,18 +18,23 @@ public class ShareLocationReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        Toast.makeText(context, R.string.start_register, Toast.LENGTH_SHORT).show();
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         Bundle b = intent.getExtras();
         Location location = (Location)b.get(LocationManager.KEY_LOCATION_CHANGED);
         String hash_salt = prefs.getString(context.getString(R.string.sync_hash_salt), "");
-//        String user_name = prefs.getString(context.getString(R.string.user_name), "");
-	String user_name = "";
-	try {
-        	user_name = URLEncoder.encode(prefs.getString(context.getString(R.string.user_name), ""), "UTF-8");
-	} catch (UnsupportedEncodingException e) {
- 		System.err.println(e);
-	}
+        String user_name = prefs.getString(context.getString(R.string.user_name), "").replaceAll(" ","_");
+        Log.d(ShareActivity.TAG, "username=" + prefs.getString(context.getString(R.string.user_name), ""));
+//    	String user_name = "";
+//	    try {
+//        	user_name = URLEncoder.encode(prefs.getString(context.getString(R.string.user_name), ""), "UTF-8");
+//    	} catch (UnsupportedEncodingException e) {
+// 	    	System.err.println(e);
+//	    }
+//        Log.d(ShareActivity.TAG, "username=" + user_name);
+//        user_name.replaceAll(" ", "_");
+        Log.d(ShareActivity.TAG, "username=" + user_name);
 
         String message;
         boolean success = false;
@@ -44,6 +49,9 @@ public class ShareLocationReceiver extends BroadcastReceiver {
         }
 
         if (!success){
+            Toast.makeText(context, R.string.failed, Toast.LENGTH_SHORT).show();
+            Log.d(ShareActivity.TAG, "http sharing faild.");
+
             boolean sms_sharing = prefs.getBoolean(context.getString(R.string.sms_sharing), true);
             String sms_number = prefs.getString(context.getString(R.string.sms_number), "");
             if (sms_sharing && sms_number != "") {

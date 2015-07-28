@@ -7,18 +7,8 @@
             "alt": "85",
             "spd": "0",
             "acc": "70",
-            "user": "Patrick",
+            "user": "Test1",
             "hash": "11bc481101ced76ccd3f0e8ca462d849"
-        },
-        {
-            "time": "1435460174",
-            "lat": "54.037624",
-            "lon": "9.366712",
-            "alt": "65",
-            "spd": "0",
-            "acc": "1",
-            "user": "Jan",
-            "hash": "253d9ea3c45c3d400d82a541e7072477"
         },
         {
             "time": "1435463617",
@@ -28,7 +18,7 @@
             "spd": "0",
             "acc": "1",
             "hash": "ef571e87cfe6b0b4c17daa26305468cd",
-            "user": "Tom"
+            "user": "Test2"
         },
         {
             "time": "1435463616",
@@ -38,7 +28,7 @@
             "spd": "0",
             "acc": "1",
             "hash": "2b1c8160d4d73a605aff32846472590a",
-            "user": "Thorsten"
+            "user": "Test3"
         }
     ]
 }
