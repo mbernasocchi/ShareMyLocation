@@ -1,36 +1,26 @@
 <?php
-//CONFIGURE SAME AS IN APP
-$HASH_SALT = '1234';
-//END CONFIGURE
+$user = new \ShareMyLocation\server\User();
+$locationService = new \ShareMyLocation\server\LocationService();
 
-$fix_time = $_GET['time'];
-$latitude = $_GET['lat'];
-$longitude = $_GET['lon'];
-$altitude = $_GET['alt'];
-$speed = $_GET['spd'];
-$accuracy = $_GET['acc'];
-$hash = $_GET['hash'];
+$user->setUserName($_GET['user']);
 
-$data = $fix_time . $latitude . $longitude . $altitude . $speed . $accuracy . $HASH_SALT;
-$md5 = md5($data);
+//the time is not saved in micro-seconds, so we have to divide by 1000 here
+$user->setTime(round($_GET['time'])/1000);
 
-$string = file_get_contents("location.json");
-$json=json_decode($string,true);
-$last_json_time = $json['time'];
+$user->setLatitude($_GET['lat']);
+$user->setLongitude($_GET['lon']);
+$user->setAltitude($_GET['alt']);
+$user->setSpeed($_GET['spd']);
+$user->setAccuracy($_GET['acc']);
+$user->setHash($_GET['hash']);
 
-if ($md5 != $_GET['hash']){
-    die("invalid hash");
-}
-else if($last_json_time > $fix_time){
-    die("old data");
-}
-else{
-    $myfile = fopen("location.json", "w") or die("Unable to open file!");
-    $format = '{"time":"%s","lat":%s,"lon":%s,"alt":%s,"spd":%s,"acc":%s,"hash":"%s"}';
-    $json = sprintf($format, $fix_time, $latitude, $longitude, $altitude, $speed, $accuracy, $hash);
-    fwrite($myfile, $json);
-    print "OK";
-}
-fclose($myfile);
 
-?>
+$jsonUserList = file_get_contents("location.json", true);
+
+$updatedList = $locationService->updateLocation($user, $jsonUserList);
+
+$locationFile = fopen("location.json", "w+") or die("Unable to open file!");
+
+fwrite($locationFile, $updatedList);
+fclose($locationFile);
+

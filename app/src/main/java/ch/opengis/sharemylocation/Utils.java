@@ -18,7 +18,7 @@ import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
-
+import java.util.Locale;
 /**
  * Created by marco on 17.09.14.
  */
@@ -80,6 +80,7 @@ public class Utils {
         LocationManager lm = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
         String hash_salt = prefs.getString(context.getString(R.string.sync_hash_salt), "");
+        String user_name = prefs.getString(context.getString(R.string.user_name), "");
         List<String> providers = lm.getProviders(true);
         Location loc = null;
 
@@ -89,10 +90,10 @@ public class Utils {
             if (loc != null) break;
         }
 
-        return generate_message(loc, hash_salt, outputFormat);
+        return generate_message(loc, user_name, hash_salt, outputFormat);
     }
 
-    public static String generate_message(Location location, String hash_salt, OutputFormat outputFormat) {
+    public static String generate_message(Location location, String user_name, String hash_salt, OutputFormat outputFormat) {
         if (location == null){
             Log.w(ShareActivity.TAG, "Location is null ");
             return "";
@@ -107,18 +108,18 @@ public class Utils {
         String altitude = new DecimalFormat("#.#").format(location.getAltitude());
         String speed = new DecimalFormat("#.#").format(location.getSpeed());
         String accuracy = new DecimalFormat("#.#").format(location.getAccuracy());
-        String latitude = String.format("%f", location.getLatitude());
-        String longitude = String.format("%f", location.getLongitude());
+        String latitude = String.format(Locale.US, "%f", location.getLatitude());
+        String longitude = String.format(Locale.US, "%f", location.getLongitude());
 
-        String data = fixTime + latitude + longitude + altitude + speed + accuracy + hash_salt;
+        String data = fixTime + latitude + longitude + altitude + speed + accuracy + user_name + hash_salt;
         String hash = md5(data);
 
         String format;
         if (outputFormat == OutputFormat.URL_PARAMS){
-            format = "time=%s&lat=%s&lon=%s&alt=%s&spd=%s&acc=%s&hash=%s";
+            format = "time=%s&lat=%s&lon=%s&alt=%s&spd=%s&acc=%s&user=%s&hash=%s";
         }
         else{
-            format = "{\"time\":\"%s\",\"lat\":%s,\"lon\":%s,\"alt\":%s,\"spd\":%s,\"acc\":%s,\"hash\":\"%s\"}";
+            format = "{\"time\":\"%s\",\"lat\":%s,\"lon\":%s,\"alt\":%s,\"spd\":%s,\"acc\":%s,\"user\":\"%s\",\"hash\":\"%s\"}";
         }
         return String.format(
                 format,
@@ -128,6 +129,7 @@ public class Utils {
                 altitude,
                 speed,
                 accuracy,
+                user_name,
                 hash);
     }
 

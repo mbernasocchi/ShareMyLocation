@@ -11,7 +11,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-
+import android.util.Log;
 
 import java.util.List;
 
@@ -87,6 +87,7 @@ public class SettingsActivity extends PreferenceActivity {
         // to reflect the new value, per the Android Design guidelines.
         bindPreferenceSummaryToValue(findPreference(getString(R.string.sync_frequency)));
         bindPreferenceSummaryToValue(findPreference(getString(R.string.sync_hash_salt)));
+        bindPreferenceSummaryToValue(findPreference(getString(R.string.user_name)));
         bindPreferenceSummaryToValue(findPreference(getString(R.string.post_url)));
         bindPreferenceSummaryToValue(findPreference(getString(R.string.sms_number)));
     }
@@ -196,6 +197,7 @@ public class SettingsActivity extends PreferenceActivity {
             // guidelines.
             bindPreferenceSummaryToValue(findPreference(getString(R.string.sync_frequency)));
             bindPreferenceSummaryToValue(findPreference(getString(R.string.sync_hash_salt)));
+            bindPreferenceSummaryToValue(findPreference(getString(R.string.user_name)));
         }
     }
 

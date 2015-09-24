@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ public class ShareActivity extends Activity {
     SharedPreferences prefs;
     SharedPreferences.OnSharedPreferenceChangeListener prefListener;
     Switch sharing_toggle;
+    Button share_now_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,8 @@ public class ShareActivity extends Activity {
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         sharing_toggle = (Switch) findViewById(R.id.sharing_toggle);
         sharing_toggle.setChecked(GPSService.IS_RUNNING);
+        share_now_button = (Button) findViewById(R.id.sharing_now);
+        share_now_button.setEnabled(GPSService.IS_RUNNING);
         Log.d(TAG, "GPS service running: " + GPSService.IS_RUNNING);
 
 
@@ -92,22 +96,36 @@ public class ShareActivity extends Activity {
         }
     }
 
-    private void reset_sharing(){
-        if (GPSService.IS_RUNNING){
-            stopService(GPSintent);
-            startService(GPSintent);
-            Toast.makeText(this, R.string.frequency_changed, Toast.LENGTH_SHORT).show();
+    // called by onclick in the xml
+    public void sharing_now(View view) {
+        Log.d(TAG, "Share Now");
+        Toast.makeText(this, R.string.trigger_now, Toast.LENGTH_SHORT).show();
+        if (sharing_toggle.isChecked()) {
+            stop_sharing();
+            start_sharing();
+        } else {
+            Toast.makeText(this, R.string.location_services_inactive, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void reset_sharing(){
+            if (GPSService.IS_RUNNING) {
+                stopService(GPSintent);
+                startService(GPSintent);
+                Toast.makeText(this, R.string.frequency_changed, Toast.LENGTH_SHORT).show();
+            }
     }
 
     private void stop_sharing() {
         stopService(GPSintent);
+        share_now_button.setEnabled(false);
     }
 
     private void start_sharing() {
         // Get Location Manager and check for GPS location services
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             startService(GPSintent);
+            share_now_button.setEnabled(true);
         }
         else {
             // disable the switch, so if the use cancels the dialog we have consistent state

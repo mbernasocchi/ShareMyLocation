@@ -21,6 +21,16 @@
         android:layout_alignParentRight="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="toggle_sharing"/>
+        android:onClick="toggle_sharing" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Share Now"
+        android:id="@+id/sharing_now"
+        android:layout_below="@+id/sharing_toggle"
+        android:layout_alignRight="@+id/sharing_toggle"
+        android:layout_alignEnd="@+id/sharing_toggle"
+        android:onClick="sharing_now" />
 
 </RelativeLayout>
